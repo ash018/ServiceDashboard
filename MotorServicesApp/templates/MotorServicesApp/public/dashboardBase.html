@@ -1,0 +1,19 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+{% include 'MotorServicesApp/public/CommonHeader.html' %}
+
+<body>
+    <div id="wrapper">
+        {% include 'MotorServicesApp/public/LeftNavigationPanel.html' %}
+    
+        {% block main_content %}
+
+        {% endblock %}
+
+        {% include 'MotorServicesApp/public/RightNavigationPanel.html' %}
+    </div>
+</body>
+</html>

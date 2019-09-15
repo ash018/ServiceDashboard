@@ -1,0 +1,163 @@
+{% extends "./public/dashboardBase.html" %}
+{% load static %}
+{% block main_content %}
+
+    <script src="{% static "assets/js/powerbi.min.js" %}"></script>
+
+    <style type="text/css">
+        @media screen and (max-width: 1400px) and (min-width: 800px) {
+            #reportContainer {
+                width: 100%;
+                height: 650px;
+            }
+
+            #report_page_list {
+                visibility: hidden;
+            }
+        }
+
+        @media screen and (max-width: 2000px) and (min-width: 1401px) {
+            #reportContainer {
+                width: 100%;
+                height: 890px;
+            }
+
+            #report_page_list {
+                visibility: hidden;
+            }
+        }
+
+        @media (min-width: 1920px) and (max-width: 2560px) {
+            #reportContainer {
+                width: 100%;
+                height: 950px;
+            }
+
+            #report_page_list {
+                visibility: hidden;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            #reportContainer {
+                width: 100%;
+                height: 1000px;
+            }
+
+            h2 {
+                font-size: 14px;
+            }
+
+            #report_print, .breadcrumb {
+                display: none;
+            }
+
+            #report_page_name {
+                font-size: 12px;
+            }
+        }
+
+        iframe {
+            border: 0;
+        }
+    </style>
+
+    <div id="page-wrapper" class="gray-bg">
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+
+            <div class="col-sm-6 col-xs-6">
+                <h2>Territory Report</h2>
+                <ol class="breadcrumb">
+                    Territory Report
+                </ol>
+            </div>
+            <div class="col-sm-4 col-xs-5">
+                <button id="report_page_list" aria-expanded="true" role="button" href="#"
+                        class="pull-right btn-white dropdown-toggle" data-toggle="dropdown"
+                        style="margin: 0; position: absolute;transform: translateY(60%);"><i
+                        class="fa fa-bar-chart fa-1x"></i> Pages <span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu" id="dropdownPageList">
+                </ul>
+            </div>
+            <div class="col-sm-2 col-xs-1">
+
+            </div>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+
+                            <div class="m-b-lg">
+
+                                <div class="m-t-md">
+
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-sm btn-white" id="report_full_screen"><i
+                                                class="fa fa-window-maximize"></i> <span
+                                                class="hidden-xs">Full Screen </span></button>
+                                        <button type="button" class="btn btn-sm btn-white" id="report_refresh"><i
+                                                class="fa fa-refresh"></i> <span class="hidden-xs">Refresh </span>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-white" id="report_reload"><i
+                                                class="fa fa-spinner"></i> <span class="hidden-xs">Reload </span>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-white" id="report_print"><i
+                                                class="fa fa-print"></i> Print
+                                        </button>
+                                    </div>
+                                    <h2 id="report_page_name"></h2>
+                                </div>
+                            </div>
+
+                            <div class="m-b-lg">
+
+                                <div class="m-t-md">
+                                    <div id="reportContainer">
+                                        <table id="AllPartsAdd" class=" table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>Territory Name</th>
+                                                <th>Area Name</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for tn in ttyList %}
+                                                <tr id="Complain_{{ tn.Id }}">
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ tn.TerritoryName }}</td>
+                                                    <td>{{ tn.AreaName__Name }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <br>
+        <br>
+
+    </div>
+
+    <script>
+        
+
+    </script>
+
+{% endblock %}

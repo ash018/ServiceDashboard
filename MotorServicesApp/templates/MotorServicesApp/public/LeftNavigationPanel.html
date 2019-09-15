@@ -1,0 +1,48 @@
+{% load static %}
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span>
+                        <img alt="image" class="img-circle" src="{% static "assets/img/customer.png" %}"/>
+                     </span>
+
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold" style="align-content: center;">Welcome</strong>
+                            </span>
+                            <h3><span class="text-muted text-xs block">{{ request.session.UserName }}</span></h3>
+                            <h5><span class="text-muted text-xs block">{{ request.session.Designation }}</span></h5>
+                        </span>
+                    </a>
+
+                </div>
+                <div class="logo-element">
+                    MIS+
+                </div>
+            </li>
+            <li class="{% if request.resolver_match.url_name == "Home" %}active{% endif %}">
+                <a href="{% url 'Home' %}"><i class="fa fa-registered"></i> <span class="nav-label">Home</span></a>
+            </li>
+            <li>
+                <a href="{% url 'TerritoryReport' %}"><i class="fa fa-list"></i><span class="nav-label">View Territory</span></a>
+            </li>
+            <li>
+                <a href="{% url 'AddNewTerritory' %}"><i class="fa fa-list"></i><span class="nav-label">Add Territory</span></a>
+            </li>
+            <li>
+                <a href="{% url 'TechnicianReport' %}"><i class="fa fa-ellipsis-h"></i><span class="nav-label">Technician</span></a>
+            </li>
+            <li>
+                <a href="{% url 'AddNewTechnician' %}"><i class="fa fa-list"></i><span class="nav-label">Add Technician</span></a>
+            </li>
+            <li class="">
+                <a href="{% url 'Logout' %}"><i class="fa fa-sign-out"></i> <span class="nav-label">Logout</span></a>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
