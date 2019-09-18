@@ -38,6 +38,17 @@ class UserAdmin(UserAdmin):
     )
 admin.site.register(User, UserAdmin)
 
+
+
+
+class TerritoryForm(forms.ModelForm):
+    AreaId = forms.ModelChoiceField(queryset=Area.objects.all(),empty_label="Select an Area",label='Area')
+
+    class Meta:
+        model = Territory
+        exclude = ['user','Notes']
+
+
 class TerritoryAdmin(admin.ModelAdmin):
     list_display = ('AreaId','Name', 'Code')
     search_fields = ['Name']
@@ -46,7 +57,7 @@ class TerritoryAdmin(admin.ModelAdmin):
     # readonly_fields = ['ahref_tag']
     fields = ('AreaId','Name', 'Code')
     list_per_page = 20
-
+    form =TerritoryForm
 
 
     def get_queryset(self, request):
@@ -54,8 +65,10 @@ class TerritoryAdmin(admin.ModelAdmin):
         return qs.filter(user=request.user)
 
     def get_form(self, request, obj=None, **kwargs):
-        self.exclude = ("user","Notes")
-        kwargs['widgets'] = {'Notes': forms.Textarea}
+        #self.exclude = ("user","Notes")
+
+        kwargs['widgets'] = {'Notes': forms.Textarea }
+
         form = super(TerritoryAdmin, self).get_form(request, obj, **kwargs)
         return form
 
