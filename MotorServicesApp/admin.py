@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 #from django.contrib.auth.models import Group, User
-from .models import  Area,Territory, MotorTechnician, Target, ServiceDetails, UserInfo
+from .models import  Area,Territory, MotorTechnician, Target, ServiceDetails, UserInfo, UserArea
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
@@ -28,6 +28,7 @@ class UserCreateForm(UserCreationForm):
 
 class UserAdmin(UserAdmin):
     add_form = UserCreateForm
+    #filter_horizontal = ['AreaId']
     prepopulated_fields = {'username': ('first_name' , 'last_name', )}
 
     add_fieldsets = (
@@ -41,12 +42,25 @@ admin.site.register(User, UserAdmin)
 
 
 
+
 class TerritoryForm(forms.ModelForm):
     AreaId = forms.ModelChoiceField(queryset=Area.objects.all(),empty_label="Select an Area",label='Area')
 
     class Meta:
         model = Territory
         exclude = ['user','Notes']
+
+
+class UserAreaAdmin(admin.ModelAdmin):
+    list_display = ['UserId']
+    list_filter = ['UserId']
+    filter_horizontal = ['AreaId']
+    ordering = ['-Id']
+
+    list_per_page = 10
+
+
+admin.site.register(UserArea, UserAreaAdmin)
 
 
 class TerritoryAdmin(admin.ModelAdmin):
@@ -81,7 +95,8 @@ admin.site.register(Territory, TerritoryAdmin)
 
 
 class MotorTechnicianAdmin(admin.ModelAdmin):
-    list_display = ('Name', 'Designation','StaffId', 'TerritoryCode','MobileNo')
+    #list_display = ('Name', 'Designation','StaffId', 'TerritoryCode','MobileNo')
+    list_display = ('Name', 'Designation', 'StaffId', 'TerritoryCode','MobileNo')
     search_fields = ['Name', 'StaffId', 'MobileNo']
     list_filter = ['StaffId', 'MobileNo']
     ordering = ['-Id']
@@ -90,6 +105,7 @@ class MotorTechnicianAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super(MotorTechnicianAdmin, self).get_queryset(request)
+        #print("===="+str(qs))
         return qs.filter(user=request.user)
 
     def save_model(self, request, obj, form, change):

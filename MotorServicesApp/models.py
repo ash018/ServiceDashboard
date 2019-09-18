@@ -4,7 +4,7 @@ from django.db import models
 
 
 from django.contrib.auth.models import Group, User
-
+from django.contrib.auth.models import AbstractUser
 
 # class Region(models.Model):
 #     Id = models.AutoField(primary_key=True, db_column='RegionId')
@@ -35,9 +35,14 @@ class Area(models.Model):
         managed = True
         db_table = 'Area'
 
+class UserArea(models.Model):
+    Id = models.AutoField(primary_key=True, db_column='Id')
+    UserId = models.ForeignKey(User,db_column='UserId',on_delete=models.CASCADE)
+    AreaId = models.ManyToManyField(Area, db_column='AreaId')
 
-def myunicode(self):
-    return self.get_full_name()
+    class Meta:
+        managed = True
+        db_table = 'UserArea'
 
 class Territory(models.Model):
     Id = models.AutoField(primary_key=True, db_column='TerritoryId')
@@ -48,10 +53,11 @@ class Territory(models.Model):
     user = models.ForeignKey(User,db_column='EntryBy',on_delete=models.CASCADE)
 
     def __str__(self):
+        #print("====="+self.Name)
         return self.Name
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Territory'
 
 class MotorTechnician(models.Model):
@@ -65,7 +71,7 @@ class MotorTechnician(models.Model):
     Notes = models.CharField(max_length=100, db_column='Notes')
     user = models.ForeignKey(User, db_column='SupervisorCode', on_delete=models.CASCADE, default=1)
 
-    # added_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    #added_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.Name
