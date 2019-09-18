@@ -35,12 +35,16 @@ class Area(models.Model):
         managed = True
         db_table = 'Area'
 
+
+def myunicode(self):
+    return self.get_full_name()
+
 class Territory(models.Model):
     Id = models.AutoField(primary_key=True, db_column='TerritoryId')
     Name = models.CharField(max_length=100, db_column='TerritoryName')
     Code = models.CharField(max_length=50, db_column='TerritoryCode')
     Notes = models.CharField(max_length=100, db_column='Notes')
-    AreaId = models.ForeignKey(Area, db_column='AreaId', on_delete=models.CASCADE, default=1)
+    AreaId = models.ForeignKey(Area, db_column='AreaId', on_delete=models.CASCADE)
     user = models.ForeignKey(User,db_column='EntryBy',on_delete=models.CASCADE)
 
     def __str__(self):
