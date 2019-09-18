@@ -42,13 +42,12 @@ class TerritoryAdmin(admin.ModelAdmin):
     ordering = ['-Id']
     # readonly_fields = ['ahref_tag']
     list_per_page = 20
-
     def get_queryset(self, request):
         qs = super(TerritoryAdmin, self).get_queryset(request)
         return qs.filter(user=request.user)
 
     def get_form(self, request, obj=None, **kwargs):
-        self.exclude = ("user",)
+        self.exclude = ("user","Notes")
         kwargs['widgets'] = {'Notes': forms.Textarea}
         form = super(TerritoryAdmin, self).get_form(request, obj, **kwargs)
         return form

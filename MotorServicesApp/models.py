@@ -23,7 +23,7 @@ from django.contrib.auth.models import Group, User
 class Area(models.Model):
     Id = models.AutoField(primary_key=True, db_column='AreaId')
     AreaName = models.CharField(max_length=100, db_column='AreaName',unique=True)
-    Notes = models.CharField(max_length=100, db_column='Notes')
+    Notes = models.CharField(max_length=100, db_column='Notes',default='')
 
     # RegionId = models.ForeignKey(Region, db_column='RegionId', on_delete=models.CASCADE)
     #user = models.ForeignKey(User)
