@@ -23,7 +23,7 @@ from django.contrib.auth.models import AbstractUser
 class Area(models.Model):
     Id = models.AutoField(primary_key=True, db_column='AreaId')
     AreaName = models.CharField(max_length=100, db_column='AreaName',unique=True)
-    Notes = models.CharField(max_length=100, db_column='Notes')
+    Notes = models.CharField(max_length=100, db_column='Notes',default='')
 
     # RegionId = models.ForeignKey(Region, db_column='RegionId', on_delete=models.CASCADE)
     #user = models.ForeignKey(User)
@@ -44,13 +44,12 @@ class UserArea(models.Model):
         managed = True
         db_table = 'UserArea'
 
-
 class Territory(models.Model):
     Id = models.AutoField(primary_key=True, db_column='TerritoryId')
     Name = models.CharField(max_length=100, db_column='TerritoryName')
     Code = models.CharField(max_length=50, db_column='TerritoryCode')
     Notes = models.CharField(max_length=100, db_column='Notes')
-    AreaId = models.ForeignKey(Area, db_column='AreaId', on_delete=models.CASCADE, default=1)
+    AreaId = models.ForeignKey(Area, db_column='AreaId', on_delete=models.CASCADE)
     user = models.ForeignKey(User,db_column='EntryBy',on_delete=models.CASCADE)
 
     def __str__(self):

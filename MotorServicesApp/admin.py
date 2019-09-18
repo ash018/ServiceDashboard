@@ -8,6 +8,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
+
+
+
 admin.site.site_header = "Motor Service Administration"
 admin.site.site_title = "Motor Service"
 admin.site.index_title = "Motor Service"
@@ -48,19 +51,22 @@ class UserAreaAdmin(admin.ModelAdmin):
 admin.site.register(UserArea, UserAreaAdmin)
 
 class TerritoryAdmin(admin.ModelAdmin):
-    list_display = ('Name', 'Code')
+    list_display = ('AreaId','Name', 'Code')
     search_fields = ['Name']
     list_filter = ['Name', 'Code']
     ordering = ['-Id']
     # readonly_fields = ['ahref_tag']
+    fields = ('AreaId','Name', 'Code')
     list_per_page = 20
+
+
 
     def get_queryset(self, request):
         qs = super(TerritoryAdmin, self).get_queryset(request)
         return qs.filter(user=request.user)
 
     def get_form(self, request, obj=None, **kwargs):
-        self.exclude = ("user",)
+        self.exclude = ("user","Notes")
         kwargs['widgets'] = {'Notes': forms.Textarea}
         form = super(TerritoryAdmin, self).get_form(request, obj, **kwargs)
         return form
