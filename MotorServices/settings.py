@@ -25,7 +25,7 @@ SECRET_KEY = '4g&$1+1l6px(^8-t@a@-mezbh!b7_@xica*yy553@9f8yhooya'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', '192.168.101.89','192.168.101.121', '192.168.101.188', '192.168.100.61', '116.68.205.72', 'mis.digital','localhost','192.168.101.188']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', '116.68.205.71','192.168.101.121', '192.168.101.188', '192.168.100.61', '116.68.205.72', 'mis.digital','localhost','192.168.101.188']
 
 
 # Application definition
