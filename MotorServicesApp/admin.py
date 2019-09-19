@@ -40,9 +40,6 @@ class UserAdmin(UserAdmin):
 admin.site.register(User, UserAdmin)
 
 
-
-
-
 class TerritoryForm(forms.ModelForm):
     AreaId = forms.ModelChoiceField(queryset=Area.objects.all(),empty_label="Select an Area",label='Area')
 
