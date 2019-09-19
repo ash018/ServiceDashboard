@@ -40,6 +40,9 @@ class UserArea(models.Model):
     UserId = models.ForeignKey(User,db_column='UserId',on_delete=models.CASCADE)
     AreaId = models.ManyToManyField(Area, db_column='AreaId')
 
+    # def __str__(self):
+    #     return self.UserId
+
     class Meta:
         managed = True
         db_table = 'UserArea'

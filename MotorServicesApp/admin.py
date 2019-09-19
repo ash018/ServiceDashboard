@@ -61,15 +61,13 @@ admin.site.register(UserArea, UserAreaAdmin)
 
 
 class TerritoryAdmin(admin.ModelAdmin):
-    list_display = ('AreaId','Name', 'Code')
+    list_display = ('AreaId', 'Name', 'Code')
     search_fields = ['Name']
-    list_filter = ['Name', 'Code']
+    list_filter = ['Name']
     ordering = ['-Id']
-    # readonly_fields = ['ahref_tag']
     fields = ('AreaId','Name', 'Code')
     list_per_page = 20
     form =TerritoryForm
-
 
     def get_queryset(self, request):
         qs = super(TerritoryAdmin, self).get_queryset(request)
@@ -87,6 +85,11 @@ class TerritoryAdmin(admin.ModelAdmin):
         obj.user = request.user
         return super(TerritoryAdmin, self).save_model(request, obj, form, change)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "AreaId":
+            #aList = UserArea.objects.filter(UserId=request.user).values_list('AreaId__Id', flat=True)
+            kwargs["queryset"] = Area.objects.filter(Id__in=(UserArea.objects.filter(UserId=request.user).values_list('AreaId__Id', flat=True)))
+        return super(TerritoryAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(Territory, TerritoryAdmin)
 
@@ -97,7 +100,6 @@ class MotorTechnicianAdmin(admin.ModelAdmin):
     search_fields = ['Name', 'StaffId', 'MobileNo']
     list_filter = ['StaffId', 'MobileNo']
     ordering = ['-Id']
-    # readonly_fields = ['ahref_tag']
     list_per_page = 20
 
     def get_queryset(self, request):
@@ -110,15 +112,16 @@ class MotorTechnicianAdmin(admin.ModelAdmin):
         obj.user = request.user
         return super(MotorTechnicianAdmin, self).save_model(request, obj, form, change)
 
-    # def save_model(self, request, obj, form, change):
-    #     obj.user = request.user
-    #     return super(MotorTechnicianAdmin, self).save_model(request, obj, form, change)
-
     def get_form(self, request, obj=None, **kwargs):
         self.exclude = ("user",)
-        #kwargs['widgets'] = {'Notes': forms.Textarea}
         form = super(MotorTechnicianAdmin, self).get_form(request, obj, **kwargs)
         return form
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "TerritoryCode":
+            #aList = UserArea.objects.filter(UserId=request.user).values_list('AreaId__Id', flat=True)
+            kwargs["queryset"] = Territory.objects.filter(user=request.user)
+        return super(MotorTechnicianAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(MotorTechnician, MotorTechnicianAdmin)
 
