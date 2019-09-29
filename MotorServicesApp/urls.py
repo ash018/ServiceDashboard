@@ -26,12 +26,13 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.Login, name='Login'),
-    url(r'^Home', views.Home, name='Home'),
-    url(r'^TerritoryReport', views.TerritoryReport, name='TerritoryReport'),
-    url(r'^AddNewTerritory', views.AddNewTerritory, name='AddNewTerritory'),
-    url(r'^TechnicianReport', views.TechnicianReport, name='TechnicianReport'),
-    url(r'^AddNewTechnician', views.AddNewTerritory, name='AddNewTechnician'),
-    url(r'^Logout', views.Logout, name='Logout'),
+    #url(r'^$', views.Login, name='Login'),
+    url(r'^Home', views.AllReportForEng, name='report'),
+
+    # url(r'^TerritoryReport', views.TerritoryReport, name='TerritoryReport'),
+    # url(r'^AddNewTerritory', views.AddNewTerritory, name='AddNewTerritory'),
+    # url(r'^TechnicianReport', views.TechnicianReport, name='TechnicianReport'),
+    # url(r'^AddNewTechnician', views.AddNewTerritory, name='AddNewTechnician'),
+    # url(r'^Logout', views.Logout, name='Logout'),
 ]
 

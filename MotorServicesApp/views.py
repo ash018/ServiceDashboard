@@ -38,105 +38,112 @@ SESSION_ID = "ABC"
 
 # Create your views here.
 
-def Login(request):
-    if request.method == 'GET':
-        if 'UserID' not in request.session:
-            return render(request, 'MotorServicesApp/Login.html')
-        else:
-            UserID = request.session['UserID']
-            return render(request, 'MotorServicesApp/Login.html')
-    if request.method == 'POST':
-        UserName = request.POST.get('UserName')
-        Password = request.POST.get('Password')
-        userObj = UserManager.objects.filter(UserName=UserName, Password=Password).first()
+def AllReportForEng(request):
+    context = {'PageTitle': 'Home'}
+    return render(request, 'MotorServicesApp/Home.html',context)
 
 
-        if userObj is not None:
-            if Password == str(userObj.Password):
-                #request.session['uid'] = str(userObj.Id)
-                request.session['UserID'] = str(userObj.UserID)                
-                request.session['UserName'] = str(userObj.UserName)
-                request.session['Password'] = Password
-                #request.session['DisplayName'] = DisplayName
-                #request.session['Status'] = Status #str(userObj.DepartmentId.DepartmentName)
-                #request.session['Department'] = str(userObj.DepartmentId.Id)
-
-                if not request.session.session_key:
-                    request.session.save()
-                global SESSION_ID
-                print(request.session['UserName'])
-
-                return HttpResponseRedirect('Home')
-            else:
-                return render(request, 'MotorServicesApp/Login.html',{'message':'UserName Password mismass'})
-        else:
-            return render(request, 'MotorServicesApp/Login.html',{'message':'UserName Password mismass'})
 
 
-    return render(request, 'MotorServicesApp/Login.html')
-
-#@login_required(login_url='/')
-def Home(request):
-    if 'UserID' not in request.session:
-        return render(request, 'MotorServicesApp/Login.html')
-    else:
-        context = {'PageTitle': 'Home'}
-        return render(request, 'MotorServicesApp/Home.html',context)
-
-def TerritoryReport(request):
-    if 'UserID' not in request.session:
-        return render(request, 'MotorServicesApp/Login.html')
-    else:
-        userId = request.session['UserID']
-        AreaName = AreaNew.objects.filter(pk=int(userId)).first()
-        ttyList = TerritoryNew.objects.filter(AreaName=AreaName).values('TerritoryName', 'AreaName__Name')
-        print("===="+str(ttyList))
-        context = {'PageTitle': 'Home', 'ttyList': ttyList}
-        return render(request, 'MotorServicesApp/TerritoryReport.html',context)
-
-def AddNewTerritory(request):
-    if 'UserID' not in request.session:
-        return render(request, 'MotorServicesApp/Login.html')
-    else:
-        userId = request.session['UserID']
-        AreaName = AreaNew.objects.filter(pk=int(userId)).first()
-        ttyList = TerritoryNew.objects.filter(AreaName=AreaName).values('TerritoryName', 'AreaName__Name')
-        print("===="+str(ttyList))
-        context = {'PageTitle': 'Home', 'ttyList': ttyList}
-        return render(request, 'MotorServicesApp/AddTerritory.html',context)
-
-def territory_create(request, template_name='MotorServicesApp/AddTerritory.html'):
-    if 'UserID' not in request.session:
-        return render(request, 'MotorServicesApp/Login.html')
-    else:
-        form = TerritoryForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-        return redirect('MotorServicesApp/TerritoryReport.html')
-        return render(request, template_name, {'form':form})
-
-def TechnicianReport(request):
-    if 'UserID' not in request.session:
-        return render(request, 'MotorServicesApp/Login.html')
-    else:
-        userId = request.session['UserID']
-        user = UserManager.objects.filter(pk=int(userId)).first()
-        tecList = Technician.objects.filter(EntryBy=user).values('TechnicianName','StaffID', 'Designation')
-        print("===="+str(tecList))
-        context = {'PageTitle': 'Home', 'tecList': tecList}
-        return render(request, 'MotorServicesApp/TechnicianReport.html',context)
-
-def AddNewTechnician(request):
-    if 'UserID' not in request.session:
-        return render(request, 'MotorServicesApp/Login.html')
-    else:
-        userId = request.session['UserID']
-        AreaName = AreaNew.objects.filter(pk=int(userId)).first()
-        ttyList = TerritoryNew.objects.filter(AreaName=AreaName).values('TerritoryName', 'AreaName__Name')
-        print("===="+str(ttyList))
-        context = {'PageTitle': 'Home', 'ttyList': ttyList}
-        return render(request, 'MotorServicesApp/AddTechnician.html',context)
-        
+# def Login(request):
+#     if request.method == 'GET':
+#         if 'UserID' not in request.session:
+#             return render(request, 'MotorServicesApp/Login.html')
+#         else:
+#             UserID = request.session['UserID']
+#             return render(request, 'MotorServicesApp/Login.html')
+#     if request.method == 'POST':
+#         UserName = request.POST.get('UserName')
+#         Password = request.POST.get('Password')
+#         userObj = UserManager.objects.filter(UserName=UserName, Password=Password).first()
+#
+#
+#         if userObj is not None:
+#             if Password == str(userObj.Password):
+#                 #request.session['uid'] = str(userObj.Id)
+#                 request.session['UserID'] = str(userObj.UserID)
+#                 request.session['UserName'] = str(userObj.UserName)
+#                 request.session['Password'] = Password
+#                 #request.session['DisplayName'] = DisplayName
+#                 #request.session['Status'] = Status #str(userObj.DepartmentId.DepartmentName)
+#                 #request.session['Department'] = str(userObj.DepartmentId.Id)
+#
+#                 if not request.session.session_key:
+#                     request.session.save()
+#                 global SESSION_ID
+#                 print(request.session['UserName'])
+#
+#                 return HttpResponseRedirect('Home')
+#             else:
+#                 return render(request, 'MotorServicesApp/Login.html',{'message':'UserName Password mismass'})
+#         else:
+#             return render(request, 'MotorServicesApp/Login.html',{'message':'UserName Password mismass'})
+#
+#
+#     return render(request, 'MotorServicesApp/Login.html')
+#
+# #@login_required(login_url='/')
+# def Home(request):
+#     if 'UserID' not in request.session:
+#         return render(request, 'MotorServicesApp/Login.html')
+#     else:
+#         context = {'PageTitle': 'Home'}
+#         return render(request, 'MotorServicesApp/Home.html',context)
+#
+# def TerritoryReport(request):
+#     if 'UserID' not in request.session:
+#         return render(request, 'MotorServicesApp/Login.html')
+#     else:
+#         userId = request.session['UserID']
+#         AreaName = AreaNew.objects.filter(pk=int(userId)).first()
+#         ttyList = TerritoryNew.objects.filter(AreaName=AreaName).values('TerritoryName', 'AreaName__Name')
+#         print("===="+str(ttyList))
+#         context = {'PageTitle': 'Home', 'ttyList': ttyList}
+#         return render(request, 'MotorServicesApp/TerritoryReport.html',context)
+#
+# def AddNewTerritory(request):
+#     if 'UserID' not in request.session:
+#         return render(request, 'MotorServicesApp/Login.html')
+#     else:
+#         userId = request.session['UserID']
+#         AreaName = AreaNew.objects.filter(pk=int(userId)).first()
+#         ttyList = TerritoryNew.objects.filter(AreaName=AreaName).values('TerritoryName', 'AreaName__Name')
+#         print("===="+str(ttyList))
+#         context = {'PageTitle': 'Home', 'ttyList': ttyList}
+#         return render(request, 'MotorServicesApp/AddTerritory.html',context)
+#
+# def territory_create(request, template_name='MotorServicesApp/AddTerritory.html'):
+#     if 'UserID' not in request.session:
+#         return render(request, 'MotorServicesApp/Login.html')
+#     else:
+#         form = TerritoryForm(request.POST or None)
+#         if form.is_valid():
+#             form.save()
+#         return redirect('MotorServicesApp/TerritoryReport.html')
+#         return render(request, template_name, {'form':form})
+#
+# def TechnicianReport(request):
+#     if 'UserID' not in request.session:
+#         return render(request, 'MotorServicesApp/Login.html')
+#     else:
+#         userId = request.session['UserID']
+#         user = UserManager.objects.filter(pk=int(userId)).first()
+#         tecList = Technician.objects.filter(EntryBy=user).values('TechnicianName','StaffID', 'Designation')
+#         print("===="+str(tecList))
+#         context = {'PageTitle': 'Home', 'tecList': tecList}
+#         return render(request, 'MotorServicesApp/TechnicianReport.html',context)
+#
+# def AddNewTechnician(request):
+#     if 'UserID' not in request.session:
+#         return render(request, 'MotorServicesApp/Login.html')
+#     else:
+#         userId = request.session['UserID']
+#         AreaName = AreaNew.objects.filter(pk=int(userId)).first()
+#         ttyList = TerritoryNew.objects.filter(AreaName=AreaName).values('TerritoryName', 'AreaName__Name')
+#         print("===="+str(ttyList))
+#         context = {'PageTitle': 'Home', 'ttyList': ttyList}
+#         return render(request, 'MotorServicesApp/AddTechnician.html',context)
+#
 def Logout(self):
     if 'UserID' not in self.session:
         return HttpResponseRedirect('/')

@@ -6,19 +6,18 @@ from django.db import models
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.models import AbstractUser
 
-# class Region(models.Model):
-#     Id = models.AutoField(primary_key=True, db_column='RegionId')
-#     RegionName = models.CharField(max_length=100, db_column='RegionName')
-#     PartId = models.IntegerField(db_column='PartId', default=0)
-#     Notes = models.CharField(max_length=100, db_column='Notes')
-#     #user = models.ForeignKey(User)
-#
-#     def __str__(self):
-#         return self.RegionName
-#
-#     class Meta:
-#         managed = True
-#         db_table = 'Region'
+class EngWiseReport(models.Model):
+    Id = models.AutoField(primary_key=True, db_column='Id')
+    EngWiseReportLink = models.CharField(max_length=255, db_column='EngWiseReportLink')
+    EngId = models.ForeignKey(User, db_column='UserId', on_delete=models.CASCADE, default=2)
+
+    def __str__(self):
+        return self.EngWiseReportLink
+
+    class Meta:
+        verbose_name_plural = 'TSA/TSO-Report'
+        managed = False
+        db_table = 'EngWiseReport'
 
 class Area(models.Model):
     Id = models.AutoField(primary_key=True, db_column='AreaId')
@@ -32,7 +31,7 @@ class Area(models.Model):
         return self.AreaName
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Area'
 
 class UserArea(models.Model):
@@ -44,7 +43,7 @@ class UserArea(models.Model):
     #     return self.UserId
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'UserArea'
 
 class Territory(models.Model):
@@ -80,7 +79,8 @@ class MotorTechnician(models.Model):
         return self.Name
 
     class Meta:
-        managed = True
+        verbose_name_plural = 'Motor Technician'
+        managed = False
         db_table = 'MotorTechnician'
 
 class Target(models.Model):
@@ -97,7 +97,7 @@ class Target(models.Model):
         return self.TechnicianCode.Name
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Target'
 
 
@@ -108,6 +108,7 @@ class UserInfo(models.Model):
     Password = models.CharField(max_length=50)
     IsActive = models.IntegerField(default=1, db_column='IsActive')
     user = models.ForeignKey(User, db_column='SupervisorID', on_delete=models.CASCADE)
+    MotorTechnicianId = models.ForeignKey(MotorTechnician, db_column='MotorTechnicianId', on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.UserName
@@ -159,10 +160,7 @@ class ServiceCall(models.Model):
         managed = False
         db_table = 'GN_ServiceCall'
 
-    # def __str__(self):
-    #     return '{}, {}'.format(self.CallTypeDetails)
-
-
+#17613
 class ServiceDetails(models.Model):
     ServiceDetailsId = models.AutoField(primary_key=True)
     CustomerName = models.CharField(max_length=100)
@@ -182,7 +180,8 @@ class ServiceDetails(models.Model):
     ServerInsertDateTime = models.DateTimeField(auto_now_add=True)
     ServerUpdateDateTime = models.DateTimeField(auto_now=True)
 
-    IsVerify = models.BooleanField(db_column='IsVerify', default=False)
+    #IsVerify = models.BooleanField(db_column='IsVerify', default=False)
+    IsVerify = models.IntegerField(db_column='IsVerify', default=0)
 
     #UserId = models.ForeignKey(UserInfo, db_column='UserId', on_delete=models.CASCADE)
     UserId = models.ForeignKey(UserInfo, db_column='UserId', on_delete=models.CASCADE)
@@ -195,90 +194,6 @@ class ServiceDetails(models.Model):
         return self.CustomerName
 
     class Meta:
+        verbose_name_plural = 'Service Details'
         managed = False
         db_table = 'GN_ServiceDetails'
-
-    # def __str__(self):
-    #     return '{}'.format( self.CustomerName)
-
-
-# class Status(models.Model):
-#     Id = models.AutoField(primary_key=True, db_column='Id')
-#     Name = models.CharField(max_length=50, db_column='Name')
-#
-#     def __str__(self):
-#         return self.Name
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'Status'
-#
-# class AreaNew(models.Model):
-#     Id = models.AutoField(primary_key=True, db_column='AreaID')
-#     Name = models.CharField(max_length=100, db_column='AreaName')
-#
-#     def __str__(self):
-#         return self.Name
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'AreaNew'
-#
-# class UserManager(models.Model):
-#     UserID = models.AutoField(primary_key=True, db_column='UserID')
-#     UserName = models.CharField(max_length=255, db_column='UserName', unique=True)
-#     Password = models.CharField(max_length=255, db_column='Password')
-#     Status =  models.ForeignKey(Status, db_column='Status', on_delete=models.CASCADE)
-#     AccessLevel = models.ForeignKey(AreaNew, db_column='AccessLevel', on_delete=models.CASCADE)
-#     DisplayName = models.CharField(max_length=100, db_column='DisplayName')
-#
-#     def __str__(self):
-#        return "Username: " + self.UserName + " has been created successfully."
-#
-#     def get_full_name(self):
-#         return self.UserName
-#
-#     def get_full_Status(self):
-#         return self.Status.Name
-#
-#     def get_full_UserType(self):
-#         return self.UserType.Name
-#
-#     def get_full_AccessLevel(self):
-#         return self.AccessLevel.Name
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'UserManager'
-#
-# class TerritoryNew(models.Model):
-#     TerritoryID = models.AutoField(primary_key=True, db_column='TerritoryID')
-#     TerritoryCode = models.CharField(max_length=50, db_column='TerritoryCode')
-#     TerritoryName = models.CharField(max_length=100, db_column='TerritoryName')
-#     AreaName =  models.ForeignKey(AreaNew, db_column='AreaID', on_delete=models.CASCADE)
-#     Notes = models.CharField(max_length=100, db_column='Notes')
-#
-#     def __str__(self):
-#         return self.TerritoryName
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'TerritoryNew'
-#
-# class Technician(models.Model):
-#     Id = models.AutoField(primary_key=True, db_column='TechnicianID')
-#     TechnicianName = models.CharField(max_length=50, db_column='TechnicianName')
-#     Designation = models.CharField(max_length=100, db_column='Designation')
-#     StaffID = models.CharField(max_length=100, db_column='StaffID')
-#     MobileNo = models.CharField(max_length=100, db_column='MobileNo')
-#     BloodGroup = models.CharField(max_length=100, db_column='BloodGroup')
-#     TerritoryCode = models.CharField(max_length=100, db_column='TerritoryCode')
-#     Notes = models.CharField(max_length=100, db_column='Notes')
-#     EntryBy =  models.ForeignKey(UserManager, db_column='SupervisorCode', on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.TechnicianName
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'Technician'
