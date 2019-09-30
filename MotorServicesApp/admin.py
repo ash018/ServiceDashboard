@@ -243,7 +243,9 @@ class TargetAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if request.user.id == 1:
-            obj.user = request.user
+            #updObj = Target.objects.filter(pk=obj.Id)
+            # if obj.pk:
+            #     obj.user = request.user
             return super(TargetAdmin, self).save_model(request, obj, form, change)
         else:
             from django.contrib import messages
