@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django import forms
 #from django.contrib.auth.models import Group, User
-from .models import  Area,Territory, MotorTechnician, Target, ServiceDetails, UserInfo, UserArea, EngWiseReport
+from .models import  Area,Territory, MotorTechnician, Target, ServiceDetails, UserInfo, UserArea, EngWiseReport, CSIInfo, \
+    SixHourInfo
+
+
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
@@ -332,6 +335,28 @@ class ServiceDetailsAdmin(admin.ModelAdmin):
 
 admin.site.register(ServiceDetails, ServiceDetailsAdmin)
 
+
+class CSIInfoForm(forms.ModelForm):
+    class Meta:
+        model = CSIInfo
+        fields= ('AreaId','TerritoryId','CSIValue')
+
+class CSIInfoAdmin(admin.ModelAdmin):
+
+    class Meta:
+        model = CSIInfo
+        form =  CSIInfoForm
+
+
+admin.site.register(CSIInfo,CSIInfoAdmin)
+
+
+class SixHourInfoAdmin(admin.ModelAdmin):
+
+    class Meta:
+        model = SixHourInfo
+
+admin.site.register(SixHourInfo, SixHourInfoAdmin)
 
 # def my_view(request):
 #     return HttpResponse("Hello!")

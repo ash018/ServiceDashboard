@@ -1,10 +1,11 @@
 from django.db import models
-
+from django.forms import forms
 # Create your models here.
 
 
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.models import AbstractUser
+from smart_selects.db_fields import ChainedForeignKey
 
 class EngWiseReport(models.Model):
     Id = models.AutoField(primary_key=True, db_column='Id')
@@ -197,3 +198,43 @@ class ServiceDetails(models.Model):
         verbose_name_plural = 'Service Details'
         managed = False
         db_table = 'GN_ServiceDetails'
+
+
+
+class CSIInfo(models.Model):
+    CSIINforId = models.AutoField(primary_key=True)
+    AreaId = models.ForeignKey(Area, db_column='AreaId', on_delete=models.CASCADE)
+    #TerritoryId = models.ForeignKey(Territory, db_column='TerritoryId', on_delete=models.CASCADE)
+
+    TerritoryId = ChainedForeignKey(
+        Territory,
+        chained_field="AreaId",
+        chained_model_field="AreaId",
+        show_all=False,
+        auto_choose=True,
+        sort=True,
+        db_column='TerritoryId'
+    )
+
+    CSIValue = models.DecimalField(decimal_places=2,max_digits=10)
+
+    def __str__(self):
+        return str(self.CSIValue)
+
+    class Meta:
+        managed = True
+        db_table = 'CSIInfo'
+
+
+class SixHourInfo(models.Model):
+    SixHourInfoId = models.AutoField(primary_key=True)
+    AreaId = models.ForeignKey(Area, db_column='AreaId', on_delete=models.CASCADE)
+    TerritoryId = ChainedForeignKey(
+        Territory,
+        chained_field="AreaId",
+        chained_model_field="AreaId",
+        show_all=False,
+        auto_choose=True,
+        sort=True
+    )
+    SixHourValue = models.DecimalField(decimal_places=2, max_digits=10)
