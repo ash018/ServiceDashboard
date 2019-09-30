@@ -23,5 +23,6 @@ from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^chaining/', include('smart_selects.urls')),
     url(r'', include('MotorServicesApp.urls'))
 ]

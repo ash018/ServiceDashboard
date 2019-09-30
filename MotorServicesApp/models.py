@@ -216,7 +216,7 @@ class CSIInfo(models.Model):
         db_column='TerritoryId'
     )
 
-    CSIValue = models.DecimalField(decimal_places=2,max_digits=10)
+    CSIValue = models.DecimalField(db_column='CSIValue',decimal_places=2,max_digits=10)
 
     def __str__(self):
         return str(self.CSIValue)
