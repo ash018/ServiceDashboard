@@ -216,10 +216,10 @@ class CSIInfo(models.Model):
         db_column='TerritoryId'
     )
 
-    CSIValue = models.DecimalField(decimal_places=2,max_digits=10)
+    CSIValue = models.DecimalField(decimal_places=2, max_digits=10, db_column='CSIValue')
 
     def __str__(self):
-        return str("CSI Info Added for "+self.TerritoryId.Name+" and value is "+ self.CSIValue)
+        return str("CSI Info Added for "+self.TerritoryId.Name+" and value is "+ str(self.CSIValue))
 
     class Meta:
         verbose_name_plural = 'CSI Info'
@@ -242,7 +242,7 @@ class SixHourInfo(models.Model):
     SixHourValue = models.DecimalField(decimal_places=2, max_digits=10, db_column='SixHourValue')
 
     def __str__(self):
-        return str("Six Hour Added for "+self.TerritoryId.Name+" and value is "+ self.SixHourValue)
+        return str("Six Hour Added for "+self.TerritoryId.Name+" and value is "+ str(self.SixHourValue))
 
     class Meta:
         verbose_name_plural = 'Six Hour'
