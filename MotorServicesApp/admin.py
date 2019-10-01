@@ -339,7 +339,7 @@ admin.site.register(ServiceDetails, ServiceDetailsAdmin)
 class CSIInfoForm(forms.ModelForm):
     class Meta:
         model = CSIInfo
-        fields= ('AreaId','TerritoryId','CSIValue')
+        fields = ('AreaId','TerritoryId','CSIValue')
 
 class CSIInfoAdmin(admin.ModelAdmin):
 

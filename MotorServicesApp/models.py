@@ -219,10 +219,11 @@ class CSIInfo(models.Model):
     CSIValue = models.DecimalField(db_column='CSIValue', decimal_places=2, max_digits=10)
 
     def __str__(self):
-        return str(self.CSIValue)
+        return str("CSI Info Added for "+self.TerritoryId.Name+" and value is "+ str(self.CSIValue))
 
     class Meta:
-        managed = True
+        verbose_name_plural = 'CSI Info'
+        managed = False
         db_table = 'CSIInfo'
 
 
@@ -235,6 +236,15 @@ class SixHourInfo(models.Model):
         chained_model_field="AreaId",
         show_all=False,
         auto_choose=True,
-        sort=True
+        sort=True,
+        db_column='TerritoryId'
     )
-    SixHourValue = models.DecimalField(decimal_places=2, max_digits=10)
+    SixHourValue = models.DecimalField(decimal_places=2, max_digits=10, db_column='SixHourValue')
+
+    def __str__(self):
+        return str("Six Hour Added for "+self.TerritoryId.Name+" and value is "+ str(self.SixHourValue))
+
+    class Meta:
+        verbose_name_plural = 'Six Hour'
+        managed = False
+        db_table = 'SixHourInfo'
